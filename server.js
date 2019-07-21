@@ -11,9 +11,7 @@ const app = express();
 
 mongoose.connection.on(
   'error',
-  console.error.bind(console, 'MongoDb connection error:', {
-    useNewUrlParser: true
-  })
+  console.error.bind(console, 'MongoDb connection error:')
 );
 
 mongoose.connection.once('open', () =>
@@ -64,6 +62,6 @@ app.use(function(err, req, res, next) {
   } else res.status(500).json({ message: 'Something looks wrong :( !!!' });
 });
 
-app.listen(3000, function() {
-  console.log('node server listening on port 3000');
+const server = app.listen(process.env.PORT || 3000, function() {
+  console.log(`node server listening on port ${server.address().port}`);
 });
