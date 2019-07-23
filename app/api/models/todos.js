@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const STATUS = require('../constants');
+const CONSTANTS = require('../constants');
 
 const Schema = mongoose.Schema;
 
@@ -23,9 +23,11 @@ const TodoSchema = new Schema({
     required: true,
     validate: {
       validator: function(status) {
-        return [STATUS.ACTIVE, STATUS.COMPLETED].includes(status);
+        return [CONSTANTS.STATUS.ACTIVE, CONSTANTS.STATUS.COMPLETED].includes(
+          status
+        );
       },
-      msg: `one of [${STATUS.ACTIVE}, ${STATUS.COMPLETED}]`
+      msg: `one of [${CONSTANTS.STATUS.ACTIVE}, ${CONSTANTS.STATUS.COMPLETED}]`
     }
   },
   owner: {

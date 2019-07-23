@@ -1,5 +1,5 @@
 const todoModel = require('../models/todos');
-const STATUS = require('../constants/');
+const CONSTANTS = require('../constants/');
 
 module.exports = {
   create: function(req, res, next) {
@@ -8,7 +8,7 @@ module.exports = {
       {
         title: title,
         createdAt: new Date(),
-        status: STATUS.ACTIVE,
+        status: CONSTANTS.STATUS.ACTIVE,
         owner: userId
       },
       function(err) {
