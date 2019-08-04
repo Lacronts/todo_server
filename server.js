@@ -23,7 +23,7 @@ app.set('secretKey', 'todoRestApi');
 
 app.use(cors());
 app.use(logger('dev'));
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json({ extended: true }));
 
 const baseUrl = `/api/${CONSTANTS.API_VERSION.v1}`;
 
@@ -48,6 +48,6 @@ app.use(function(err, req, res, next) {
   } else res.status(500).json({ message: 'Something looks wrong :( !!!' });
 });
 
-const server = app.listen(process.env.PORT || 80, function() {
+const server = app.listen(process.env.PORT || 8080, function() {
   console.log(`node server listening on port ${server.address().port}`);
 });
