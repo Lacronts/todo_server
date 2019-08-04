@@ -6,7 +6,6 @@ const users = require('./routes/users');
 const bodyParser = require('body-parser');
 const mongoose = require('./config/database');
 const cors = require('cors');
-const jwt = require('jsonwebtoken');
 const app = express();
 const CONSTANTS = require('./app/api/constants/');
 const validateUser = require('./helpers/validateUser');
