@@ -48,6 +48,6 @@ app.use(function(err, req, res, next) {
   } else res.status(500).json({ message: 'Something looks wrong :( !!!' });
 });
 
-const server = app.listen(process.env.PORT || 8080, function() {
+const server = app.listen(process.env.PORT || 3500, function() {
   console.log(`node server listening on port ${server.address().port}`);
 });
