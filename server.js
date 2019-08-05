@@ -6,14 +6,18 @@ const users = require('./routes/users');
 const bodyParser = require('body-parser');
 const mongoose = require('./config/database');
 const cors = require('cors');
-const jwt = require('jsonwebtoken');
 const app = express();
 const CONSTANTS = require('./app/api/constants/');
 const validateUser = require('./helpers/validateUser');
 
-mongoose.connection.on('error', console.error.bind(console, 'MongoDb connection error:'));
+mongoose.connection.on(
+  'error',
+  console.error.bind(console, 'MongoDb connection error:')
+);
 
-mongoose.connection.once('open', () => console.log('MongoDb connection established'));
+mongoose.connection.once('open', () =>
+  console.log('MongoDb connection established')
+);
 
 app.set('secretKey', process.env.SECRET_KEY);
 
