@@ -15,7 +15,7 @@ module.exports = {
         else
           res.json({
             status: 'success',
-            message: 'User added successfully!!!',
+            message: 'Registration completed successfully. Please Sign In now',
             data: null
           });
       }

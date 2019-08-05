@@ -11,7 +11,7 @@ const UserSchema = new Schema({
     required: true,
     validate: {
       validator: function(name) {
-        return name > 1;
+        return name.length > 1;
       },
       msg: `name must be at least 2 characters`
     }
@@ -34,7 +34,7 @@ const UserSchema = new Schema({
     required: true,
     validate: {
       validator: function(pass) {
-        return pass > 7;
+        return pass.length > 7;
       },
       msg: `name must be at least 8 characters`
     }
