@@ -25,13 +25,15 @@ module.exports = {
     userModel.findOne({ email: req.body.email }, function(err, userInfo) {
       if (err) {
         next(err);
+      } else if (!userInfo) {
+        let error = new Error('Invalid email/password!!!');
+        error.code = 400;
+        next(error);
       } else {
         if (bcrypt.compareSync(req.body.password, userInfo.password)) {
-          const token = jwt.sign(
-            { id: userInfo._id },
-            req.app.get('secretKey'),
-            { expiresIn: '30d' }
-          );
+          const token = jwt.sign({ id: userInfo._id }, req.app.get('secretKey'), {
+            expiresIn: '30d'
+          });
           res.json({
             status: 'success',
             message: 'user found!!!',

@@ -11,20 +11,15 @@ const app = express();
 const CONSTANTS = require('./app/api/constants/');
 const validateUser = require('./helpers/validateUser');
 
-mongoose.connection.on(
-  'error',
-  console.error.bind(console, 'MongoDb connection error:')
-);
+mongoose.connection.on('error', console.error.bind(console, 'MongoDb connection error:'));
 
-mongoose.connection.once('open', () =>
-  console.log('MongoDb connection established')
-);
+mongoose.connection.once('open', () => console.log('MongoDb connection established'));
 
-app.set('secretKey', 'todoRestApi');
+app.set('secretKey', process.env.SECRET_KEY);
 
 app.use(cors());
 app.use(logger('dev'));
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json({ extended: true }));
 
 const baseUrl = `/api/${CONSTANTS.API_VERSION.v1}`;
 
@@ -44,8 +39,13 @@ app.use(function(req, res, next) {
 app.use(function(err, req, res, next) {
   if (err.status === 404) {
     res.status(404).json({ message: 'Not found' });
-  } else if (err.name == 'ValidationError') {
-    res.status(400).json({ message: 'Bad Request', error: err.message });
+  } else if (err.name == 'ValidationError' || err.code === 400) {
+    const details = Object.keys(err.errors).reduce((acc, key) => {
+      acc[key] = err.errors[key].message;
+      return acc;
+    }, {});
+    console.log(details);
+    res.status(400).json({ message: 'Bad Request', error: { details } });
   } else res.status(500).json({ message: 'Something looks wrong :( !!!' });
 });
 
