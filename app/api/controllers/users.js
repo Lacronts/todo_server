@@ -1,5 +1,5 @@
 const userModel = require('../models/users');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
 module.exports = {
@@ -31,9 +31,13 @@ module.exports = {
         next(error);
       } else {
         if (bcrypt.compareSync(req.body.password, userInfo.password)) {
-          const token = jwt.sign({ id: userInfo._id }, req.app.get('secretKey'), {
-            expiresIn: '30d'
-          });
+          const token = jwt.sign(
+            { id: userInfo._id },
+            req.app.get('secretKey'),
+            {
+              expiresIn: '30d'
+            }
+          );
           res.json({
             status: 'success',
             message: 'user found!!!',
