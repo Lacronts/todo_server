@@ -3,10 +3,10 @@ const CONSTANTS = require('../constants/');
 
 module.exports = {
   create: function(req, res, next) {
-    const { title, userId } = req.body;
+    const { todoText, userId } = req.body;
     todoModel.create(
       {
-        title: title,
+        todoText: todoText,
         createdAt: new Date(),
         status: CONSTANTS.STATUS.ACTIVE,
         owner: userId
@@ -37,7 +37,7 @@ module.exports = {
               id: todo._id,
               createdAt: todo.createdAt,
               updatedAt: todo.updatedAt,
-              title: todo.title,
+              todoText: todo.todoText,
               status: todo.status
             });
           }
@@ -66,10 +66,10 @@ module.exports = {
   },
   updateById: function(req, res, next) {
     const { todoId } = req.params;
-    const { title, status } = req.body;
+    const { todoText, status } = req.body;
     todoModel.findById(todoId, function(err, todo) {
       if (err) next(err);
-      todo.title = title || todo.title;
+      todo.todoText = todoText || todo.todoText;
       todo.status = status || todo.status;
       todo.updatedAt = new Date();
       todo.save(function(err) {

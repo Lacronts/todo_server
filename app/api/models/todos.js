@@ -4,7 +4,7 @@ const CONSTANTS = require('../constants');
 const Schema = mongoose.Schema;
 
 const TodoSchema = new Schema({
-  title: {
+  todoText: {
     type: String,
     trim: true,
     required: true
@@ -23,9 +23,7 @@ const TodoSchema = new Schema({
     required: true,
     validate: {
       validator: function(status) {
-        return [CONSTANTS.STATUS.ACTIVE, CONSTANTS.STATUS.COMPLETED].includes(
-          status
-        );
+        return [CONSTANTS.STATUS.ACTIVE, CONSTANTS.STATUS.COMPLETED].includes(status);
       },
       msg: `one of [${CONSTANTS.STATUS.ACTIVE}, ${CONSTANTS.STATUS.COMPLETED}]`
     }
