@@ -10,14 +10,9 @@ const app = express();
 const CONSTANTS = require('./app/api/constants/');
 const validateUser = require('./helpers/validateUser');
 
-mongoose.connection.on(
-  'error',
-  console.error.bind(console, 'MongoDb connection error:')
-);
+mongoose.connection.on('error', console.error.bind(console, 'MongoDb connection error:'));
 
-mongoose.connection.once('open', () =>
-  console.log('MongoDb connection established')
-);
+mongoose.connection.once('open', () => console.log('MongoDb connection established'));
 
 app.set('secretKey', process.env.SECRET_KEY);
 
@@ -43,15 +38,16 @@ app.use(function(req, res, next) {
 app.use(function(err, req, res, next) {
   if (err.status === 404) {
     res.status(404).json({ message: 'Not found' });
-  } else if (err.name == 'ValidationError') {
+  } else if (err.name == 'ValidationError' || err.code === 400) {
     const details = Object.keys(err.errors).reduce((acc, key) => {
       acc[key] = err.errors[key].message;
       return acc;
     }, {});
     res.status(400).json({ message: 'Bad Request', error: { details } });
-  } else if (err.code === 400) {
-    res.status(400).json({ message: 'Bad Request', error: err.message });
-  } else res.status(500).json({ message: 'Something looks wrong :( !!!' });
+  }
+  // else if (err.code === 400) {
+  //   res.status(400).json({ message: 'Bad Request', error: err.message });
+  else res.status(500).json({ message: 'Something looks wrong :( !!!' });
 });
 
 const server = app.listen(process.env.PORT || 8080, function() {

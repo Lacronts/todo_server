@@ -7,7 +7,13 @@ const TodoSchema = new Schema({
   todoText: {
     type: String,
     trim: true,
-    required: true
+    required: true,
+    validate: {
+      validator: function(todoText) {
+        return todoText.length > 1;
+      },
+      msg: `todo must be at least 2 characters`
+    }
   },
   createdAt: {
     type: Date,
@@ -25,7 +31,9 @@ const TodoSchema = new Schema({
       validator: function(status) {
         return [CONSTANTS.STATUS.ACTIVE, CONSTANTS.STATUS.COMPLETED].includes(status);
       },
-      msg: `one of [${CONSTANTS.STATUS.ACTIVE}, ${CONSTANTS.STATUS.COMPLETED}]`
+      msg: `status must be one of [${CONSTANTS.STATUS.ACTIVE}, ${
+        CONSTANTS.STATUS.COMPLETED
+      }]`
     }
   },
   owner: {

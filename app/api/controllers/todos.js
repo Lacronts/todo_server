@@ -54,6 +54,8 @@ module.exports = {
     const { todoId } = req.params;
     todoModel.findByIdAndDelete(todoId, function(err) {
       if (err) {
+        err.code = 400;
+        err.errors = { id: { message: 'todo with such id is not exist' } };
         next(err);
       } else {
         res.json({

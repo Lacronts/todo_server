@@ -27,17 +27,14 @@ module.exports = {
         next(err);
       } else if (!userInfo) {
         let error = new Error('Invalid email/password!!!');
-        error.code = 400;
+        error.name = 'ValidationError';
+        error.errors = { authenticate: { message: 'Invalid email/password!' } };
         next(error);
       } else {
         if (bcrypt.compareSync(req.body.password, userInfo.password)) {
-          const token = jwt.sign(
-            { id: userInfo._id },
-            req.app.get('secretKey'),
-            {
-              expiresIn: '30d'
-            }
-          );
+          const token = jwt.sign({ id: userInfo._id }, req.app.get('secretKey'), {
+            expiresIn: '30d'
+          });
           res.json({
             status: 'success',
             message: 'user found!!!',
