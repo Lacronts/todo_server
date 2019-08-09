@@ -45,7 +45,7 @@ module.exports = {
         res.json({
           status: 'success',
           message: 'Todo list found',
-          data: { todos: todoList }
+          data: todoList
         });
       }
     });
